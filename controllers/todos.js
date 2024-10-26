@@ -3,7 +3,7 @@ import { Todo } from '../models/todo.js'
 class todoController {
     constructor() {
         // hold todo objects in array
-        this.TODOS =[]; 
+        this.TODOS = []; 
     }
 
     createTodo(req, res) {
@@ -19,6 +19,10 @@ class todoController {
             message: 'Created new todo object',
             newTask: newTodo
         })
+    }
+    
+    getTodos(req, res){
+        res.json({tasks: this.TODOS})
     } 
 }
 
