@@ -3,9 +3,37 @@ import { TodoController } from '../controllers/todos.js'
 
 const router = Router()
 
-router.post('/new-todo', (req, res) => TodoController.createTodo(req, res))
-router.get('/', (req, res) => TodoController.getTodos(req, res))
-router.patch('/:id', (req, res) => TodoController.updateTodo(req, res))
-router.delete('/:id', (req, res) => TodoController.deleteTodo(req, res))
+router.post('/new-todo', async (req, res) => {
+    try {
+        await TodoController.createTodo(req, res);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    } 
+});
+
+router.get('/', async (req, res) => {
+    try {
+        await TodoController.initTodos(); // Ensure that todos are initialized
+        res.json(TodoController.TODOS);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    } 
+});
+
+router.patch('/:id', async (req, res) => {
+    try {
+        await TodoController.updateTodo(req, res);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        await TodoController.deleteTodo(req, res);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 export default router
